@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ContactDetails {
+  ContactID        Int       @id @default(autoincrement())
+  ContactIDR       String?   @unique
+  FirstName        String
+  MiddleNames      String?
+  LastName         String
+  AddressStreetNo  String?
+  AddressLine1     String?
+  AddressLine2     String?
+  Postcode         String?
+  City             String?
+  MobileNumber     String?
+  WhatsAppNumber   String?
+  MobileNumber2    String?
+  EmailAddress     String?
+  Position         String?
+  ProfilePic       String?
+  IDNumber         String?
+  DOB              DateTime?
+  UserID           String?
+  CreatedDate      DateTime  @default(now())
+  ModifiedDate     DateTime  @updatedAt
+
+  BusinessDetails  BusinessDetails[]
+}
+
+model BusinessDetails {
+  BusinessID              Int       @id @default(autoincrement())
+  BusinessIDR             String?   @unique
+  ContactID               Int?
+  OfficialBusinessName    String?
+  BusinessDisplayName     String    @unique
+  BusinessMobileNumber    String
+  BusinessEmailAddress    String
+  BusinessType            String
+  IsPersonal              Boolean?
+  AddressStreetNo         String?
+  AddressLine1            String?
+  AddressLine2            String?
+  Postcode                String?
+  City                    String?
+  District                String?
+  Province                String?
+  Country                 String?
+  WhatsAppNumber          String?
+  LandlineNo              String?
+  BusinessRegNo           String?
+  Description             String?
+  Notes                   String?
+  MaxUnits                Int?
+  BusinessGroupID         String?
+  GoogleMapLink           String?
+  MapCoordinates          String?
+  IsPriceNegotiable       Boolean?
+  StandardCommissionRate  Float?    @default(5.00)
+  StandardDiscountRate    Float?
+  BusinessWebsite         String?
+  GeneratedSubURL         String?
+  IsActive                Boolean?
+  IsValidated             Boolean?
+  Tax                     Float?
+  Charges                 Float?
+  CreatedDate             DateTime  @default(now())
+  ModifiedDate            DateTime  @updatedAt
+
+  ContactDetails          ContactDetails? @relation(fields: [ContactID], references: [ContactID])
+
+  @@index([ContactID])
+}
